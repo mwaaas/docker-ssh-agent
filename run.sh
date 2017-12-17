@@ -70,7 +70,7 @@ fi
 
 # Run ssh-agent
 echo -e "${bold}Launching ssh-agent container...${nc}"
-docker run -d --name=ssh-agent docker-ssh-agent:latest
+docker run -d --name=ssh-agent --mount source=ssh-agent,target=/.ssh-agent docker-ssh-agent:latest
 
 echo -e "Adding your ssh keys to the ssh-agent container..."
 docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/.ssh -it docker-ssh-agent:latest ssh-add /root/.ssh/id_rsa
