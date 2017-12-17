@@ -54,17 +54,19 @@ fi
 # If container is already running, exit.
 if [ $id ]; then
   echo -e "A container named 'ssh-agent' is already running."
-  echo -e "Do you wish to stop it? (y/N): "
-  read input
 
-  if [ "$input" == "y" ]; then
-    echo -e "Removing SSH keys..."
-    docker run --rm --volumes-from=ssh-agent -it docker-ssh-agent:latest ssh-add -D
-    echo -e "Stopping ssh-agent container..."
-    docker rm -f $id
-    echo -e "${red}Stopped.${nc}"
+  if [ "$1" != "-p" ]; then
+    echo -e "Do you wish to stop it? (y/N): "
+    read input
+
+    if [ "$input" == "y" ]; then
+        echo -e "Removing SSH keys..."
+        docker run --rm --volumes-from=ssh-agent -it docker-ssh-agent:latest ssh-add -D
+        echo -e "Stopping ssh-agent container..."
+        docker rm -f $id
+        echo -e "${red}Stopped.${nc}"
+    fi
   fi
-
   exit
 fi
 
